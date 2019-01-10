@@ -208,58 +208,32 @@ var config ={
 };
 
 
+var x = null;
+var y = null;
+// var val = null;
+var mathAction;
+
+
+
+
+
 // $('body').append('<div class="calculator"></div>');
 var $calculator = $('.calculator');
 var $input = $('input', $calculator);
 
-var x = null;
-var y = null;
-var mathAction;
+
 
 
 //добавление кнопок
-config.buttons.forEach( function( button_data, i ){
 
-    // var action = actions[button_data.action];
-    var label = button_data.label;
-    var value = button_data.value;
-
-//ширина
-    /*
-    if(button_data.width === 2){
-        $calculator.append('<div class="button two" id="' + (action ? action : value) +'">' + label +'</div>');
-        // if (action){
-
-            // $('#' + action).click( strCamelCase( action) );
-            // console.log( $('#' + action) );
-            // console.log( strCamelCase(action ) );
-        // }
-
-    } else {
-
-        $calculator.append('<div class="button" id="' + (action ? action : value) +'">' + label +'</div>');
-    }
-    */
-
-    var $button = $('<div class="button">' + label +'</div>');
-    $button.appendTo( $calculator );
-    // $button.click(function() {
-    //     if (action) action();
-    //     else {
-    //         addDigit( value );
-    //     }
-    // });
-
-    //цвет
-    $('.button').eq(i).css('background-color', button_data.background );
-
-});
 
 //
 $input.on('focus', function () {
-    $input.val('');
+    // $input.val('');
 
 });
+
+//фильтрация ввода с клавиатуры
 $input.keypress(function(e){
     e = e || window.e;
     let inputArr = $input.val().split('');
@@ -271,186 +245,27 @@ $input.keypress(function(e){
 });
 
 //  C
-$('#clear-input').click(clearInput);
-
-function clearInput(){
-    $input.val('0');
-}
-
-
-
-
-// цифры
-for (let j = 0; j < 10; j++){
-    $('#' + j+ '').click(function(){
-        addDigit(j);
-    });
-}
-
-function addDigit( digit ){
-    let value = $input.val();
-    if (+value === 0){
-
-        $input.val('' + digit);
-    } else if( value.length >= config.history_length){
-        $input.val( value);
-    } else {
-        $input.val( value + digit);
-    }
-}
-
-// backspace
-$('#remove-last').click(removeLast);
-
-function removeLast(){
-    var value = $input.val();
-
-
-    if ( +value !== 0 ){
-        let valueArr = value.split('');
-
-        valueArr.pop();
-
-        if( valueArr.length === 0 ){
-
-            value = '0';
-
-        } else {
-            value = valueArr.join('');
-        }
-
-        $input.val(value);
-    }
-}
+// $('#clear-input').click(clearInput);
+//
+// function clearInput(){
+//     $input.val('0');
+// }
 
 
 
-// point
-
-$('#set-float-point').click(setFloatPoint);
-
-function setFloatPoint(){
-    let input = $input.val();
-    let inputArr = input.split('');
-    if (+$input.val() === 0){
-
-        $input.val('0');
-    } else if( inputArr.indexOf('.') !== -1 ){
-        $input.val( $input.val() );
-    } else {
-        $input.val( $input.val() + '.');
-    }
-}
 
 
-//invert
-
-$('#invert-sign').click(invertSign);
-
-function invertSign() {
-
-    let value = $input.val();
-
-    if( +value !== 0){
-        let valueArr = value.split('');
-
-        if (valueArr[0] == '-'){
-            valueArr.shift();
-        } else {
-            valueArr.unshift('-');
-        }
-
-        value = valueArr.join('');
-        $input.val(value);
-    }
-}
-
-var actions = {};
-actions['invet-actioins'] = function(val){
-    return -val;
-};
-
-//inverse
-$('#reciprocal').click(reciprocal);
-
-function reciprocal() {
-    let value = +$input.val();
-
-    let reciprocal = 1/value;
-    $input.val( roundPlus(reciprocal, config.history_length - 1) );
-}
 
 
-//percent
-$('#percent').click(percent);
-
-function percent(){
-    let value = +$input.val();
-    let percent = value/100;
-
-    $input.val( roundPlus(percent, config.history_length - 1) );
-}
-
-// square
-
-$('#square').click(square);
-
-function square(){
-
-    let value = +$input.val();
-    if( value >= 0 ){
-
-        let square = Math.sqrt(value);
-        $input.val( roundPlus(square , config.history_length - 1) );
-    } else {
-        let square = Math.sqrt(value * -1);
-        $input.val(   roundPlus(square , config.history_length - 1) + 'i' );
-    }
-}
-
-//---------------------------------------------------------------------
-//addition
-
-$('#addition').click(addition);
-
-function addition() {
-    // x = +$input.val();
-    // console.log('X:add', x);
-    // $input.val('');
-
-    mathAction = add;
-    $(window).trigger('pair-calculation');
-}
-
-//subtraction
-$('#subtraction').click(subtraction);
-
-function subtraction(){
-    mathAction = sub;
-    $(window).trigger('pair-calculation');
-}
-
-//multiply
-$('#multiply').click(multiply);
-
-function multiply(){
-    mathAction = mul;
-    $(window).trigger('pair-calculation');
-}
+console.log(actions);
+console.log('val', val);
 
 
-//devide
-$('#devide').click(devide);
 
-function devide(){
-    mathAction = dev;
-    $(window).trigger('pair-calculation');
-}
-
-//result
-$('#result').click(result);
-
+//при нажатии на кнопку парного действия, сохранить первое число
 $(window).on('pair-calculation', rememberX);
+
+$(window).on('value-change', showValue);
 
 function rememberX(){
     x = +$input.val();
@@ -458,48 +273,30 @@ function rememberX(){
     $input.val('');
 }
 
-function result() {
-    if( $input.val() !== ''){
-
-        y = +$input.val();
-    }
-    console.log('Y:result', y);
-    console.log(mathAction(x, y));
-
-    $input.val(roundPlus( +mathAction(x, y) , config.history_length - 1));
-
+function showValue() {
+    $input.val(val);
 }
+
+// function result() {
+//     if( $input.val() !== ''){
+//
+//         y = +$input.val();
+//     }
+//     console.log('Y:result', y);
+//     console.log(mathAction(x, y));
+//
+//     $input.val(roundPlus( +mathAction(x, y) , config.history_length - 1));
+//
+// }
 
 
 
 //______________________________________________
 //x - число, n - количество знаков
 
-function roundPlus(x, n) {
-
-    if(isNaN(x) || isNaN(n)) return false;
-
-    let m = Math.pow(10,n);
-    return Math.round(x*m)/m;
-}
 
 
-function add(a, b){
-    return a + b;
-}
 
-function sub(a, b){
-    return a - b;
-}
-
-function mul(a, b) {
-    return a * b;
-}
-
-function dev(a, b) {
-    return a / b;
-
-}
 
 
 function strCamelCase(str){
@@ -512,30 +309,8 @@ function strCamelCase(str){
     }
 
     return strArr.join('');
-
 }
 
-
-
-
-//__________________________
-/*
-$(function(){
-
-    var $element = $('.calculator');
-    if( !$element.length ) return;
-
-    var config_url = $element.data("calc-config");
-    if( !config_url ) return;
-
-    $.getJSON(config_url, function(data){
-        var calc = new Calculator( data, $element );
-    }, function(){
-
-    });
-
-});
-*/
 
 
 
