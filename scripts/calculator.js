@@ -29,6 +29,7 @@ class Calculator{
         this.visualCalculator();
         this.updateValue();
         this.rememberValue();
+        this.checkInput();
         // this.column_offset = data.column_offset;
         // this.row_offset = data.row_offset;
 
@@ -251,7 +252,21 @@ class Calculator{
             console.log('Y', scope.y);
             $(window).trigger('value-change');
         });
-    }
+    };
+    
+    checkInput(){
+        var scope = this;
+        var $input = $('input', scope.$container)
+        $input.keypress(function(e){
+            e = e || window.e;
+            let inputArr = $input.val().split('');
+            if( ( inputArr.indexOf('.') !== -1 ) && e.charCode==46 ){
+                return false;
+            }
+            if (e.charCode && e.charCode!=0 && e.charCode!=46 && (e.charCode < 48 || e.charCode > 57) )
+                return false;
+        });
+    };
 
     //_____________________________________________________
 

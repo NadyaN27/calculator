@@ -234,15 +234,7 @@ $input.on('focus', function () {
 });
 
 //фильтрация ввода с клавиатуры
-$input.keypress(function(e){
-    e = e || window.e;
-    let inputArr = $input.val().split('');
-    if( ( inputArr.indexOf('.') !== -1 ) && e.charCode==46 ){
-        return false;
-    }
-    if (e.charCode && e.charCode!=0 && e.charCode!=46 && (e.charCode < 48 || e.charCode > 57) )
-        return false;
-});
+
 
 //  C
 // $('#clear-input').click(clearInput);
