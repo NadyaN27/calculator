@@ -37,15 +37,30 @@ class Calculator{
 
 
     addFunction(){
-        //функции активностей
+        //математические функции
+        this.mathFunc['add'] = function () {
+            scope.y = +scope.y + +scope.x;
+            console.log( +scope.y + +scope.x );
+        };
 
+        this.mathFunc['sub'] = function () {
+            scope.y = +scope.x - +scope.y;
+        };
+
+        this.mathFunc['mul'] = function () {
+            scope.y = +scope.y * +scope.x;
+        };
+
+        this.mathFunc['dev'] = function () {
+            scope.y = +scope.x / +scope.y;
+        };
+
+        //функции активностей
         var scope =this;
         this.actions['invert-sign'] = function(){
             console.log('invert-sign');
              scope.y = -scope.y;
             $(window).trigger('value-change');
-            // return -val;
-
         };
 
         this.actions['percent'] = function(){
@@ -72,8 +87,6 @@ class Calculator{
                 console.log("remove-last");
                 $(window).trigger('value-change');
             }
-
-            // return val;
         };
 
 
@@ -94,11 +107,9 @@ class Calculator{
         };
 
         this.actions['clear-input'] = function(){
-            // $input.val('0');
-            // val = 0;
-            $(window).trigger('value-change');
+
             scope.y = null;
-            // return 0;
+            $(window).trigger('value-change');
 
         };
 
@@ -120,60 +131,36 @@ class Calculator{
             }
             $(window).trigger('value-change');
 
-            // return val;
         };
 
-        this.actions['devide'] = function(x, y){
+        this.actions['devide'] = function(){
             scope.mathFunction = 'dev';
             $(window).trigger('pair-calculation', 'dev');
-            // $(window).trigger('value-change');
         };
 
-        this.actions['multiply'] = function(x, y){
+        this.actions['multiply'] = function(){
             scope.mathFunction = 'mul';
             $(window).trigger('pair-calculation');
-            // $(window).trigger('value-change');
         };
 
-        this.actions['subtraction'] = function (x, y) {
+        this.actions['subtraction'] = function () {
             scope.mathFunction = 'sub';
             $(window).trigger('pair-calculation');
-            // $(window).trigger('value-change');
         };
 
-        this.actions['addition'] = function (x, y) {
+        this.actions['addition'] = function () {
             scope.mathFunction = 'add';
             $(window).trigger('pair-calculation');
         };
 
-        this.actions['result'] = function (y) {
+        this.actions['result'] = function () {
+            console.log(scope.mathFunction);
+
+            scope.mathFunc[scope.mathFunction]();
             $(window).trigger('value-change');
-            // if( y !== null){
-
-            // y = +y;
-            // }
-            // console.log('Y:result', y);
-            // console.log('x and y', mathAction(x, y));
-
-            // return (roundPlus( +mathAction(x, y) , scope.data.history_length - 1));
         };
 
-        //математические функции
-        this.mathFunc['add'] = function () {
-            scope.y = +scope.y + +scope.x;
-        };
 
-        this.mathFunc['sub'] = function () {
-            scope.y = +scope.x - +scope.y;
-        };
-
-        this.mathFunc['mul'] = function () {
-            scope.y = +scope.y * +scope.x;
-        };
-
-        this.mathFunc['dev'] = function () {
-            scope.y = +scope.x / +scope.y;
-        }
     };
 
     visualCalculator(){
@@ -181,47 +168,64 @@ class Calculator{
         var scope = this;
 
         $calculator.html('<input type="text">');
+        $('input', $calculator).css({'width': '100%', 'box-sizing': 'border-box'});
 
+        var $buttonsContainer = $('<div class="button-container"></div>');
+
+        $buttonsContainer.css({'display': 'grid', 'grid-template-columns': 'repeat(' + this.columns + ', 1fr)', 'grid-gap': '2px',
+            'width': '300px', 'height': '300px'});
+        $calculator.css({'display':'inline-block', 'width': 'auto', 'height': 'auto', 'background': '#939393'});
+
+        $calculator.append($buttonsContainer);
         this.data.buttons.forEach( function( button_data, i ){
-            console.log(button_data.action);
+
+
             var action = scope.actions[button_data.action];
+
+
+
+
             var label = button_data.label;
             var value = button_data.value;
 
-
             var $button = $('<div class="button">' + label +'</div>');
-
-            $button.appendTo( $calculator );
-            $button.click(action);
+            $button.appendTo( $buttonsContainer );
+            // $button.click(action);
             $button.click(function() {
                 if (action) action();
                 else {
                     scope.addDigit( value );
                 }
+
             });
 
+            $button.css({'width': 'auto', 'height': 'auto', 'justify-self': 'stretch', 'align-self': 'stretch', 'text-align': 'center',
+                'display': 'flex', 'align-items': 'center', 'justify-content': 'center'});
             //цвет
             $('.button').eq(i).css('background-color', button_data.background );
+            if (button_data.width  ){
 
+                $('.button').eq(i).css('grid-column-end', 'span ' + button_data.width  );
+            }
+            if (button_data.height ){
+
+                $('.button').eq(i).css('grid-row-end', 'span ' + button_data.height  );
+            }
         });
     };
 
     addDigit( digit ){
-        // val = $input.val();
         if( this.y === null){
-            console.log('digit: ',digit);
             this.y = digit + '';
             console.log('Y: ',this.y);
 
         }
         else if( (this.y + '').length >= this.data.history_length){
-            // $input.val( val);
         } else {
             this.y = this.y + digit + '';
         }
 
         $(window).trigger('value-change');
-        console.log('value-change');
     };
 
     updateValue(){
@@ -238,7 +242,6 @@ class Calculator{
             }
             console.log('changeValue', scope.y);
         });
-        // console.log('listenWindow');
     };
 
     rememberValue(){
@@ -252,6 +255,8 @@ class Calculator{
             console.log('Y', scope.y);
             $(window).trigger('value-change');
         });
+
+        console.log('pair-calculation');
     };
     
     checkInput(){
