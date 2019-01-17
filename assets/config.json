@@ -13,7 +13,7 @@
       "label": "←",
       "action": "remove-last",
       "description": "Remove the last digit",
-      "key": "backspace",
+      "keys": [8],
       "width": 2,
       "height": 1,
       "background": "gray"
@@ -23,7 +23,7 @@
       "label": "C",
       "action": "clear-input",
       "description": "Cliear the input field",
-      "key": "delete",
+      "keys": [46],
       "width": 1,
       "height": 1,
       "background": "gray"
@@ -33,7 +33,7 @@
       "label": "±",
       "action": "invert-sign",
       "description": "Invert Sign",
-      "key": "",
+      "keys": [],
       "background": "gray"
     },
 
@@ -41,7 +41,7 @@
       "label": "√",
       "action": "square",
       "description": "Square",
-      "key": "",
+      "keys": [],
       "background": "gray"
     },
 
@@ -53,7 +53,7 @@
       "label": "7",
       "value": "7",
       "description": "7",
-      "key": "7",
+      "keys": [55, 103],
       "background": "white"
     },
 
@@ -61,7 +61,7 @@
       "label": "8",
       "value": "8",
       "description": "8",
-      "key": "8",
+      "keys": [56, 104],
       "background": "white"
     },
 
@@ -69,7 +69,7 @@
       "label": "9",
       "value": "9",
       "description": "9",
-      "key": "9",
+      "keys": [57, 105],
       "background": "white"
     },
 
@@ -77,7 +77,7 @@
       "label": "/",
       "action": "devide",
       "description": "Devide",
-      "key": "/",
+      "keys": [47, 111],
       "background": "gray"
     },
 
@@ -85,7 +85,7 @@
       "label": "%",
       "action": "percent",
       "description": "Percent",
-      "key": "%",
+      "keys": [],
       "background": "gray"
     },
 
@@ -96,7 +96,7 @@
       "label": "4",
       "value": "4",
       "description": "4",
-      "key": "4",
+      "keys": [52, 100],
       "background": "white"
     },
 
@@ -104,7 +104,7 @@
       "label": "5",
       "value": "5",
       "description": "5",
-      "key": "5",
+      "keys": [53, 101],
       "background": "white"
     },
 
@@ -112,7 +112,7 @@
       "label": "6",
       "value": "6",
       "description": "6",
-      "key": "6",
+      "keys": [54,102],
       "background": "white"
     },
 
@@ -120,7 +120,7 @@
       "label": "*",
       "action": "multiply",
       "description": "Multiply",
-      "key": "*",
+      "keys": [42, 106],
       "background": "gray"
     },
 
@@ -128,7 +128,7 @@
       "label": "1/x",
       "action": "reciprocal",
       "description": "Get the reciprocal of a number",
-      "key": "",
+      "keys": [],
       "background": "gray"
     },
 
@@ -139,7 +139,7 @@
       "label": "1",
       "value": "1",
       "description": "1",
-      "key": "1",
+      "keys": [49, 97],
       "background": "white"
     },
 
@@ -147,7 +147,7 @@
       "label": "2",
       "value": "2",
       "description": "2",
-      "key": "2",
+      "keys": [50, 98],
       "background": "white"
     },
 
@@ -155,7 +155,7 @@
       "label": "3",
       "value": "3",
       "description": "3",
-      "key": "3",
+      "keys": [51, 99],
       "background": "white"
     },
 
@@ -163,7 +163,7 @@
       "label": "-",
       "action": "subtraction",
       "description": "Subtraction",
-      "key": "-",
+      "keys": [45, 109, 189],
       "background": "gray",
       "width": 2
     },
@@ -176,7 +176,7 @@
       "label": "0",
       "value": "0",
       "description": "0",
-      "key": "0",
+      "keys": [48, 96],
       "background": "white",
       "width": 2
     },
@@ -185,7 +185,7 @@
       "label": ",",
       "action": "set-float-point",
       "description": "Set the float point",
-      "key": ".",
+      "keys": [110, 190, 191],
       "background": "white"
     },
 
@@ -193,7 +193,7 @@
       "label": "+",
       "action": "addition",
       "description": "Addition",
-      "key": "+",
+      "keys": [43, 107],
       "background": "gray"
     },
 
@@ -201,7 +201,7 @@
       "label": "=",
       "action": "result",
       "description": "Show Result",
-      "key": "enter",
+      "keys": [13],
       "background": "gray"
     }
   ]
